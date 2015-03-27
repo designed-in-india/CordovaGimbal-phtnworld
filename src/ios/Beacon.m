@@ -29,8 +29,11 @@
 - (void)initializeBeacon:(CDVInvokedUrlCommand*)command
 {
     //[self registerNotifications];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Information" message:notification.alertBody delegate:self cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil, nil];
+    [alert show];
     
-    [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
+    /*[Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
     
     self.beaconManager = [GMBLBeaconManager new];
     [self.beaconManager startListening];
@@ -43,7 +46,7 @@
     self.communicationManager.delegate = self;
     
     [GMBLPlaceManager startMonitoring];
-    [GMBLCommunicationManager startReceivingCommunications];
+    [GMBLCommunicationManager startReceivingCommunications];*/
     
     //[self checkBluetoothStatus];
     //[self checkLocationServiceStatus];
