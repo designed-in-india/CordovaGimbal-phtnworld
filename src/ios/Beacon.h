@@ -7,10 +7,15 @@
 //
 
 #import <Cordova/CDVPlugin.h>
+#import <Gimbal/Gimbal.h>
 
 @interface Beacon : CDVPlugin
 
 - (void) open:(CDVInvokedUrlCommand*)command;
+- (void)initializeBeacon:(CDVInvokedUrlCommand*)command;
 
+@end
+
+@interface AppDelegate : Beacon
 
 @end
