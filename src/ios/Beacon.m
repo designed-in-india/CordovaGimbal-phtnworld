@@ -33,7 +33,7 @@
     [self registerNotifications];
     [self writeErrorLog:@"\n 2"];
 
-    [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
+    //[Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
     [self writeErrorLog:@"\n 3"];
 
     self.beaconManager = [GMBLBeaconManager new];
