@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Leo Joseph
+   
+-->
+
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="de.appplant.cordova.plugin.beacon"
+        version="0.8.2">
+
+    <name>Beacons</name>
+
+    <description>
+        Provides access to the standard interface that manages
+        the beacons
+    </description>
+
+    <repo>
+        https://github.com/leorjoseph/CustomBeaconPlugin.git
+    </repo>
+
+    <keywords>
+        appplant, beacons
+    </keywords>
+
+    <license>Apache 2.0</license>
+
+    <author>Leo Joseph</author>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <!-- interface -->
+    <js-module src="www/beacon.js" name="Beacon">
+        <clobbers target="cordova.plugins.beacon" />
+        <clobbers target="plugin.beacon" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Beacon">
+                <param name="ios-package" value="Beacon"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/Beacon.h" />
+        <source-file src="src/ios/Beacon.m" />
+
+    </platform>
+
+    <!-- android -->
+    <!-- <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="EmailComposer">
+                <param name="android-package"
+                       value="de.appplant.cordova.emailcomposer.EmailComposer"/>
+            </feature>
+        </config-file>
+
+        <source-file
+            src="src/android/EmailComposer.java"
+            target-dir="src/de/appplant/cordova/emailcomposer" />
+
+    </platform> -->
+
+</plugin>
