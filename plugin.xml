@@ -57,7 +57,7 @@ Leo Joseph
             <string>This app would like to scan for PhotonWorld Beacons when in the background.</string>
         </config-file>
 
-        <framework src="src/ios/Framework/Gimbal.framework" custom="true"/>
+        <framework src="src/ios/Frameworks/Gimbal.framework" custom="true"/>
         <framework src="CoreLocation.framework" />
         <framework src="libz.dylib"/>
 
