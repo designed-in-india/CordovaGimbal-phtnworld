@@ -7,6 +7,7 @@
 //
 
 #import "Beacon.h"
+#import <Gimbal/Gimbal.h>
 
 @interface Beacon()<GMBLPlaceManagerDelegate, GMBLCommunicationManagerDelegate,GMBLBeaconManagerDelegate,GMBLApplicationStatusDelegate>
 

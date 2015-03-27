@@ -7,7 +7,6 @@
 //
 
 #import <Cordova/CDVPlugin.h>
-#import <Gimbal/Gimbal.h>
 
 @interface Beacon : CDVPlugin
 
