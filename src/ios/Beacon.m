@@ -118,18 +118,7 @@
     NSLog(@"");
 }
 
-@end
-
-@implementation AppDelegate (Beacon)
-
--(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Information" message:notification.alertBody delegate:self cancelButtonTitle:@"OK"
-                                           otherButtonTitles:nil, nil];
-    [alert show];
-}
-
-+ (void) writeErrorLog:(NSString *)error {
+- (void) writeErrorLog:(NSString *)error {
     
     NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString* fileName = [documentsDirectory stringByAppendingPathComponent:@"ErrorLog.txt"];
@@ -144,5 +133,18 @@
     [file writeData:[error dataUsingEncoding:NSUTF8StringEncoding]];
     [file closeFile];
 }
+
+@end
+
+@implementation AppDelegate (Beacon)
+
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Information" message:notification.alertBody delegate:self cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+
 
 @end

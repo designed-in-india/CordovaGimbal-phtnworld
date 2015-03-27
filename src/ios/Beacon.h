@@ -13,7 +13,6 @@
 
 - (void) open:(CDVInvokedUrlCommand*)command;
 - (void)initializeBeacon:(CDVInvokedUrlCommand*)command;
-+ (void) writeErrorLog:(NSString*) error;
 
 @end
 
