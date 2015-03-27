@@ -28,26 +28,30 @@
 
 - (void)initializeBeacon:(CDVInvokedUrlCommand*)command
 {
-    //[self registerNotifications];
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Information" message:notification.alertBody delegate:self cancelButtonTitle:@"OK"
-                                           otherButtonTitles:nil, nil];
-    [alert show];
-    
-    /*[Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
-    
+    [self writeErrorLog:@"1"];
+    [self registerNotifications];
+    [self writeErrorLog:@"2"];
+
+    [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
+    [self writeErrorLog:@"3"];
+
     self.beaconManager = [GMBLBeaconManager new];
     [self.beaconManager startListening];
     self.beaconManager.delegate = self;
-    
+    [self writeErrorLog:@"4"];
+
     self.placeManager = [GMBLPlaceManager new];
     self.placeManager.delegate = self;
-    
+    [self writeErrorLog:@"5"];
+
     self.communicationManager = [GMBLCommunicationManager new];
     self.communicationManager.delegate = self;
-    
+    [self writeErrorLog:@"6"];
+
     [GMBLPlaceManager startMonitoring];
-    [GMBLCommunicationManager startReceivingCommunications];*/
-    
+    [GMBLCommunicationManager startReceivingCommunications];
+    [self writeErrorLog:@"7"];
+
     //[self checkBluetoothStatus];
     //[self checkLocationServiceStatus];
 }
@@ -119,6 +123,22 @@
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Information" message:notification.alertBody delegate:self cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil, nil];
     [alert show];
+}
+
++ (void) writeErrorLog:(NSString *)error {
+    
+    NSString* documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* fileName = [documentsDirectory stringByAppendingPathComponent:@"ErrorLog.txt"];
+    
+    //Create new file if it doesn't exist
+    if(![[NSFileManager defaultManager] fileExistsAtPath:fileName])
+        [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
+    
+    //Append error log to file
+    NSFileHandle* file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
+    [file seekToEndOfFile];
+    [file writeData:[error dataUsingEncoding:NSUTF8StringEncoding]];
+    [file closeFile];
 }
 
 @end
