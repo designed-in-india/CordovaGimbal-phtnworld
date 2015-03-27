@@ -59,6 +59,8 @@
 # pragma mark - Custom Methods
 - (void) registerNotifications{
     
+    [self writeErrorLog:@"1.1"];
+
     if ([[UIApplication sharedApplication] respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
     {
         UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
@@ -69,11 +71,13 @@
     {
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     }
-    
+    [self writeErrorLog:@"1.2"];
+
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound
                                                                                                               categories:nil]];
     }
+    [self writeErrorLog:@"1.3"];
 
 }
 - (void) checkBluetoothStatus{
