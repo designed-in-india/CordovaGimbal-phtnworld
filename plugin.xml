@@ -47,6 +47,20 @@ Leo Joseph
             </feature>
         </config-file>
 
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+            <array>
+                <string>bluetooth-central</string>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
+            <string>This app would like to scan for PhotonWorld Beacons when in the background.</string>
+        </config-file>
+
+        <framework src="src/ios/Framework/Gimbal.framework" custom="true"/>
+        <framework src="CoreLocation.framework" />
+        <framework src="libz.dylib"/>
+
         <header-file src="src/ios/Beacon.h" />
         <source-file src="src/ios/Beacon.m" />
 
