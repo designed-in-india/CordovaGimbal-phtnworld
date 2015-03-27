@@ -28,7 +28,7 @@
 
 - (void)initializeBeacon:(CDVInvokedUrlCommand*)command
 {
-    [self registerNotifications];
+    //[self registerNotifications];
     
     [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
     
@@ -45,8 +45,8 @@
     [GMBLPlaceManager startMonitoring];
     [GMBLCommunicationManager startReceivingCommunications];
     
-    [self checkBluetoothStatus];
-    [self checkLocationServiceStatus];
+    //[self checkBluetoothStatus];
+    //[self checkLocationServiceStatus];
 }
 
 # pragma mark - Custom Methods
