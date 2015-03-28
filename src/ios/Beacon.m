@@ -29,6 +29,9 @@
 
 - (void)initializeBeacon:(CDVInvokedUrlCommand*)command
 {
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Initialize" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
+    
     [self writeErrorLog:@"\n 1"];
     [self registerNotifications];
     [self writeErrorLog:@"\n 2"];
@@ -136,6 +139,9 @@
 }
 
 - (void) copyFileFromBundle:(CDVInvokedUrlCommand *)command{
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Initialize" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
     
     NSError* error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
