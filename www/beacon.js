@@ -1,4 +1,4 @@
-cordova.define("de.appplant.cordova.plugin.beacon.Beacon", function(require, exports, module) { var exec = require('cordova/exec');
+var exec = require('cordova/exec');
                
 exports.custom = function (){
    cordova.exec(
@@ -42,5 +42,3 @@ cordova.exec(
             [  ]
             );
 }
-
-});
