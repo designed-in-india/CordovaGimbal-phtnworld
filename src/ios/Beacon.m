@@ -21,8 +21,6 @@
 
 @implementation Beacon
 
-
-
 # pragma mark - Gimbal PlaceManager delegate methods
 
 - (void)placeManager:(GMBLPlaceManager *)manager didBeginVisit:(GMBLVisit *)visit
@@ -87,6 +85,11 @@
 
 - (void)initializeBeacon:(CDVInvokedUrlCommand*)command
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(CheckInCallback) name:@"CheckInCallback" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DemoCallback) name:@"DemoInCallback" object:nil];
+
+    [self displayDemoAlert];
+    
     [self writeErrorLog:@"\n 1"];
     [self registerNotifications];
     [self writeErrorLog:@"\n 2"];
@@ -172,6 +175,7 @@
     
     UILocalNotification * notification = [[UILocalNotification alloc] init];
     notification.alertBody = @"Would you like to see the demo ?";
+    notification.alertAction = @"Demo";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
@@ -179,7 +183,7 @@
     
     UILocalNotification * notification = [[UILocalNotification alloc] init];
     notification.alertBody = @"Would you like to Check-In using QR ?";
-    notification.alertAction=@"CheckIn";
+    notification.alertAction = @"CheckIn";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
@@ -222,32 +226,57 @@
         } else {
             NSLog(@"Error");
         }
-        
     }
-    
 }
 
+- (void) CheckInCallback{
+    [super writeJavascript:@"CheckInCallbackFromNative()"];
+
+}
+
+- (void) DemoCallback{
+    [super writeJavascript:@"DemoCallbackFromNative()"];
+
+}
 @end
 
 @implementation AppDelegate (Beacon)
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     
-    if (notification.alertAction) {
+    if ([notification.alertAction isEqualToString:@"CheckIn"]) {
+        
         // Store the data
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
         [defaults setObject:@"YES" forKey:@"CheckIn"];
         
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:notification.alertBody delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+        alert.tag = 111;
+        [alert show];
+        
+    }else if ([notification.alertAction isEqualToString:@"Demo"]) {
+        
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:notification.alertBody delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+        alert.tag = 222;
         [alert show];
         
     }else{
+        
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:notification.alertBody delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
     }
 }
-
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == 0) {
+        if (alertView.tag == 111) {
+        
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"CheckInCallback" object:nil];
+        }else if (alertView.tag == 222){
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"DemoInCallback" object:nil];
+        }
+    }
+}
 
 
 @end
