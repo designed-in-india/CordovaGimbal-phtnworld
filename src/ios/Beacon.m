@@ -14,11 +14,69 @@
 @property (nonatomic) GMBLPlaceManager *placeManager;
 @property (nonatomic) GMBLBeaconManager* beaconManager;
 @property (nonatomic) GMBLCommunicationManager *communicationManager;
+@property (assign) BOOL checkInAlertDisplayed;
 
 @end
 
 
 @implementation Beacon
+
+
+
+# pragma mark - Gimbal PlaceManager delegate methods
+
+- (void)placeManager:(GMBLPlaceManager *)manager didBeginVisit:(GMBLVisit *)visit
+{
+    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"Photon World 2"]) {
+        [self displayWelcomeMsgAlert];
+    }
+}
+
+- (void)placeManager:(GMBLPlaceManager *)manager didEndVisit:(GMBLVisit *)visit
+{
+    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"Photon World 2"]) {
+        [self displayExitMsgAlert];
+    }
+}
+
+- (void)placeManager:(GMBLPlaceManager *)manager didReceiveBeaconSighting:(GMBLBeaconSighting *)sighting forVisits:(NSArray *)visits{
+    
+    /*for (GMBLVisit* visitPlace in visits) {
+     if ([visitPlace.place.name isEqualToString:@"Reception"] || [visitPlace.place.name isEqualToString:@"Photon World 2"]) {
+     
+     if (!self.checkInAlertDisplayed) {
+     
+     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+     NSString *checkIn = [defaults objectForKey:@"CheckIn"];
+     if ([checkIn isEqualToString:@"YES"]) {
+     self.checkInAlertDisplayed = YES;
+     return;
+     }
+     self.checkInAlertDisplayed = YES;
+     [self displayCheckinAlert];
+     }
+     }
+     
+     }*/
+}
+
+- (void)beaconManager:(GMBLBeaconManager *)manager didReceiveBeaconSighting:(GMBLBeaconSighting *)sighting{
+    
+    if ([sighting.beacon.name isEqualToString:@"Reception"] || [sighting.beacon.name isEqualToString:@"Photon World 2"]) {
+        
+        if (!self.checkInAlertDisplayed) {
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *checkIn = [defaults objectForKey:@"CheckIn"];
+            if ([checkIn isEqualToString:@"YES"]) {
+                self.checkInAlertDisplayed = YES;
+                return;
+            }
+            self.checkInAlertDisplayed = YES;
+            [self displayCheckinAlert];
+        }
+    }
+}
 
 #pragma mark - Cordova Methods
 
@@ -32,32 +90,33 @@
     [self writeErrorLog:@"\n 1"];
     [self registerNotifications];
     [self writeErrorLog:@"\n 2"];
-
+    
     [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
     [self writeErrorLog:@"\n 3"];
-
+    
     self.beaconManager = [GMBLBeaconManager new];
     [self.beaconManager startListening];
     self.beaconManager.delegate = self;
     [self writeErrorLog:@"\n 4"];
-
+    
     self.placeManager = [GMBLPlaceManager new];
     self.placeManager.delegate = self;
     [self writeErrorLog:@"\n 5"];
-
+    
     self.communicationManager = [GMBLCommunicationManager new];
     self.communicationManager.delegate = self;
     [self writeErrorLog:@"\n 6"];
-
+    
     [GMBLPlaceManager startMonitoring];
     [GMBLCommunicationManager startReceivingCommunications];
     [self writeErrorLog:@"\n 7"];
-
+    
     //[self checkBluetoothStatus];
     //[self checkLocationServiceStatus];
 }
 
 # pragma mark - Custom Methods
+
 - (void) registerNotifications{
     
     [self writeErrorLog:@"\n 1.1"];
@@ -79,8 +138,8 @@
                                                                                                               categories:nil]];
     }
     [self writeErrorLog:@"\n 1.3"];
-
 }
+
 - (void) checkBluetoothStatus{
     
     if ([GMBLApplicationStatus bluetoothStatus] == (GMBLBluetoothStatusAdminRestricted | GMBLBluetoothStatusPoweredOff)) {
@@ -88,35 +147,40 @@
     }
 }
 
-- (void)checkLocationServiceStatus{
+- (void) checkLocationServiceStatus{
     if ([GMBLApplicationStatus locationStatus] == (GMBLLocationStatusAdminRestricted | GMBLLocationStatusNotAuthorizedAlways)) {
         //Display alert
     }
 }
 
-# pragma mark - Gimbal PlaceManager delegate methods
-
-- (void)placeManager:(GMBLPlaceManager *)manager didBeginVisit:(GMBLVisit *)visit
-{
+- (void) displayWelcomeMsgAlert{
+    
     UILocalNotification * notification = [[UILocalNotification alloc] init];
-    notification.alertBody = @"Welcome to the Photon World 2015 Conference";
+    notification.alertBody = @"Welcome to the Photon World 2015 Conference !!!";
     
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
-- (void)placeManager:(GMBLPlaceManager *)manager didEndVisit:(GMBLVisit *)visit
-{
+- (void) displayExitMsgAlert{
+    
     UILocalNotification * notification = [[UILocalNotification alloc] init];
-    notification.alertBody = @"Thank you.";
+    notification.alertBody = @"Thank you for support";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
-- (void)beaconManager:(GMBLBeaconManager *)manager didReceiveBeaconSighting:(GMBLBeaconSighting *)sighting{
+- (void) displayDemoAlert{
     
+    UILocalNotification * notification = [[UILocalNotification alloc] init];
+    notification.alertBody = @"Would you like to see the demo ?";
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
-- (void)applicationStatus:(GMBLApplicationStatus *)applicationStatus didChangeLocationStatus:(GMBLLocationStatus)locationStatus{
-    NSLog(@"");
+- (void) displayCheckinAlert{
+    
+    UILocalNotification * notification = [[UILocalNotification alloc] init];
+    notification.alertBody = @"Would you like to Check-In using QR ?";
+    notification.alertAction=@"CheckIn";
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
 - (void) writeErrorLog:(NSString *)error {
@@ -142,7 +206,6 @@
     NSString *documentsDirectoryPath = [paths firstObject];
     
     NSString *gimbalPath = [documentsDirectoryPath stringByAppendingPathComponent:@"/Gimbal"];
-
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:gimbalPath])
         [[NSFileManager defaultManager] createDirectoryAtPath:gimbalPath withIntermediateDirectories:NO attributes:nil error:&error];
@@ -170,9 +233,19 @@
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Information" message:notification.alertBody delegate:self cancelButtonTitle:@"OK"
-                                           otherButtonTitles:nil, nil];
-    [alert show];
+    if (notification.alertAction) {
+        // Store the data
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        [defaults setObject:@"YES" forKey:@"CheckIn"];
+        
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:notification.alertBody delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+        [alert show];
+        
+    }else{
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:notification.alertBody delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 
