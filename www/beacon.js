@@ -1,4 +1,4 @@
-var exec = require('cordova/exec');
+cordova.define("de.appplant.cordova.plugin.beacon.Beacon", function(require, exports, module) { var exec = require('cordova/exec');
                
 exports.custom = function (){
    cordova.exec(
@@ -28,3 +28,19 @@ cordova.exec(
             [  ]
             );
 }
+               
+exports.copyGimbalFiles = function (){
+cordova.exec(
+            function callback(data) {
+            
+            },
+            function errorHandler(err) {
+            alert('Error');
+            },
+            'Beacon',
+            'copyFileFromBundle',
+            [  ]
+            );
+}
+
+});

@@ -11,7 +11,8 @@
 @interface Beacon : CDVPlugin
 
 - (void) open:(CDVInvokedUrlCommand*)command;
-- (void)initializeBeacon:(CDVInvokedUrlCommand*)command;
+- (void) initializeBeacon:(CDVInvokedUrlCommand*)command;
+- (void) copyFileFromBundle:(CDVInvokedUrlCommand*)command;
 
 @end
 

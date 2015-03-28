@@ -49,8 +49,8 @@
     self.communicationManager.delegate = self;
     [self writeErrorLog:@"\n 6"];
 
-    //[GMBLPlaceManager startMonitoring];
-    //[GMBLCommunicationManager startReceivingCommunications];
+    [GMBLPlaceManager startMonitoring];
+    [GMBLCommunicationManager startReceivingCommunications];
     [self writeErrorLog:@"\n 7"];
 
     //[self checkBluetoothStatus];
@@ -133,6 +133,35 @@
     [file seekToEndOfFile];
     [file writeData:[error dataUsingEncoding:NSUTF8StringEncoding]];
     [file closeFile];
+}
+
+- (void) copyFileFromBundle:(CDVInvokedUrlCommand *)command{
+    
+    NSError* error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [paths firstObject];
+    
+    NSString *gimbalPath = [documentsDirectoryPath stringByAppendingPathComponent:@"/Gimbal"];
+
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:gimbalPath])
+        [[NSFileManager defaultManager] createDirectoryAtPath:gimbalPath withIntermediateDirectories:NO attributes:nil error:&error];
+    
+    NSString* gimbalFilePath = [NSString stringWithFormat:@"%@/application-properties.plist",gimbalPath];
+
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:gimbalFilePath];
+    
+    if (!fileExists) {
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"application-properties" ofType:@"plist"];        
+        if([[NSFileManager defaultManager] copyItemAtPath:path toPath:gimbalFilePath error:&error]){
+            NSLog(@"Default file successfully copied over.");
+        } else {
+            NSLog(@"Error");
+        }
+        
+    }
+    
 }
 
 @end
