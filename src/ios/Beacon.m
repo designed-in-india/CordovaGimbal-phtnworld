@@ -25,14 +25,14 @@
 
 - (void)placeManager:(GMBLPlaceManager *)manager didBeginVisit:(GMBLVisit *)visit
 {
-    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"Photon World 2"]) {
+    if ([visit.place.name isEqualToString:@"Reception"]) {
         [self displayWelcomeMsgAlert];
     }
 }
 
 - (void)placeManager:(GMBLPlaceManager *)manager didEndVisit:(GMBLVisit *)visit
 {
-    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"Photon World 2"]) {
+    if ([visit.place.name isEqualToString:@"Reception"]) {
         [self displayExitMsgAlert];
     }
 }
@@ -60,7 +60,10 @@
 
 - (void)beaconManager:(GMBLBeaconManager *)manager didReceiveBeaconSighting:(GMBLBeaconSighting *)sighting{
     
-    if ([sighting.beacon.name isEqualToString:@"Reception"] || [sighting.beacon.name isEqualToString:@"Photon World 2"]) {
+    NSInteger rssi = sighting.RSSI;
+    NSLog(@"%zd",sighting.RSSI);
+    
+    if ([sighting.beacon.name isEqualToString:@"Check-in"] && !(rssi < -70)) {
         
         if (!self.checkInAlertDisplayed) {
             
@@ -121,7 +124,7 @@
     {
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     }
-
+    
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound
                                                                                                               categories:nil]];
@@ -200,29 +203,29 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:gimbalPath withIntermediateDirectories:NO attributes:nil error:&error];
     
     NSString* gimbalFilePath = [NSString stringWithFormat:@"%@/application-properties.plist",gimbalPath];
-
+    
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:gimbalFilePath];
     
     if (!fileExists) {
         
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"application-properties" ofType:@"plist"];        
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"application-properties" ofType:@"plist"];
         if([[NSFileManager defaultManager] copyItemAtPath:path toPath:gimbalFilePath error:&error]){
             NSLog(@"Default file successfully copied over.");
         } else {
             NSLog(@"Error");
         }
     }
-    [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
+    [Gimbal setAPIKey:@"7d84197f-4aa1-4311-94d9-0821f42672d5" options:nil];
 }
 
 - (void) CheckInCallback{
     [super writeJavascript:@"CheckInCallbackFromNative()"];
-
+    
 }
 
 - (void) DemoCallback{
     [super writeJavascript:@"DemoCallbackFromNative()"];
-
+    
 }
 @end
 
@@ -253,14 +256,14 @@
     }
 }
 + (void)load{
-    [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
+    [Gimbal setAPIKey:@"7d84197f-4aa1-4311-94d9-0821f42672d5" options:nil];
     
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (buttonIndex == 0) {
         if (alertView.tag == 111) {
-        
+            
             [[NSNotificationCenter defaultCenter]postNotificationName:@"CheckInCallback" object:nil];
         }else if (alertView.tag == 222){
             [[NSNotificationCenter defaultCenter]postNotificationName:@"DemoInCallback" object:nil];
