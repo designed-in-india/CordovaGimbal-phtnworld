@@ -266,6 +266,10 @@
         [alert show];
     }
 }
++ (void)load{
+    NSLog(@"~~~~~~~~ Load Method");
+    [Gimbal setAPIKey:@"d1c5ea32-a1ee-405b-9bd8-88255ea574cc" options:nil];
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if (buttonIndex == 0) {
