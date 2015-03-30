@@ -88,7 +88,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(CheckInCallback) name:@"CheckInCallback" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DemoCallback) name:@"DemoInCallback" object:nil];
     
-    [self copyFileFromBundle:nil];
+    //[self copyFileFromBundle:nil];
     
     [self writeErrorLog:@"\n 1"];
     [self registerNotifications];
