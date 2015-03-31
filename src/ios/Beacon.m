@@ -236,7 +236,7 @@
             NSLog(@"Error");
         }
     }
-    [Gimbal setAPIKey:@"7d84197f-4aa1-4311-94d9-0821f42672d5" options:nil];
+    [Gimbal setAPIKey:@"9d1252c6-0642-4708-896b-c706fd66ebb3" options:nil];
 }
 
 - (void) CheckInCallback{
@@ -291,7 +291,7 @@
 }
 
 + (void)load{
-    [Gimbal setAPIKey:@"7d84197f-4aa1-4311-94d9-0821f42672d5" options:nil];
+    [Gimbal setAPIKey:@"9d1252c6-0642-4708-896b-c706fd66ebb3" options:nil];
     
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
