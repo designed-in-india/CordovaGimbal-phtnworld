@@ -26,17 +26,31 @@
 - (void)placeManager:(GMBLPlaceManager *)manager didBeginVisit:(GMBLVisit *)visit
 {
     if ([visit.place.name isEqualToString:@"Reception"]) {
-        [self displayWelcomeMsgAlert];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *welcomMsgDisplayed = [defaults objectForKey:@"ReceptionEntry"];
+        
+        if (![welcomMsgDisplayed isEqualToString:@"YES"]) {
+            [defaults setObject:@"YES" forKey:@"ReceptionEntry"];
+            
+            [self displayWelcomeMsgAlert];
+        }
     }
 }
 
 - (void)placeManager:(GMBLPlaceManager *)manager didEndVisit:(GMBLVisit *)visit
 {
     if ([visit.place.name isEqualToString:@"Reception"]) {
-        [self displayExitMsgAlert];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *exitMsgDisplayed = [defaults objectForKey:@"ReceptionExit"];
+        
+        if (![exitMsgDisplayed isEqualToString:@"YES"]) {
+            [defaults setObject:@"YES" forKey:@"ReceptionExit"];
+            [self displayExitMsgAlert];
+        }
     }
 }
-
 - (void)placeManager:(GMBLPlaceManager *)manager didReceiveBeaconSighting:(GMBLBeaconSighting *)sighting forVisits:(NSArray *)visits{
     
     /*for (GMBLVisit* visitPlace in visits) {
@@ -107,7 +121,7 @@
     [GMBLCommunicationManager startReceivingCommunications];
     
     //[self checkBluetoothStatus];
-    //[self checkLocationServiceStatus];
+    [self checkLocationServiceStatus];
 }
 
 # pragma mark - Custom Methods
@@ -133,14 +147,19 @@
 
 - (void) checkBluetoothStatus{
     
-    if ([GMBLApplicationStatus bluetoothStatus] == (GMBLBluetoothStatusAdminRestricted | GMBLBluetoothStatusPoweredOff)) {
-        //Display alert
+    if  ([GMBLApplicationStatus bluetoothStatus] == GMBLBluetoothStatusPoweredOff || GMBLBluetoothStatusAdminRestricted) {
+        
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:@"Please turn on Bluetooth from Settings" delegate:self cancelButtonTitle:@"Settings" otherButtonTitles:@"Ok",nil];
+        [alert show];
     }
 }
 
 - (void) checkLocationServiceStatus{
-    if ([GMBLApplicationStatus locationStatus] == (GMBLLocationStatusAdminRestricted | GMBLLocationStatusNotAuthorizedAlways)) {
-        //Display alert
+    
+    if ([GMBLApplicationStatus locationStatus] == GMBLLocationStatusNotAuthorizedAlways || GMBLLocationStatusAdminRestricted) {
+        
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:@"Please turn on Location Services from Settings" delegate:self cancelButtonTitle:@"Settings" otherButtonTitles:@"Ok",nil];
+        [alert show];
     }
 }
 
@@ -227,6 +246,15 @@
     [super writeJavascript:@"DemoCallbackFromNative()"];
     
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                    UIApplicationOpenSettingsURLString]];
+    }
+}
+
 @end
 
 @implementation AppDelegate (Beacon)
