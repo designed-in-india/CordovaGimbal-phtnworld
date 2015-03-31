@@ -25,7 +25,7 @@
 
 - (void)placeManager:(GMBLPlaceManager *)manager didBeginVisit:(GMBLVisit *)visit
 {
-    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"Onsite-Reception"]) {
+    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"OnsiteReception"]) {
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *welcomMsgDisplayed = [defaults objectForKey:@"ReceptionEntry"];
@@ -40,7 +40,7 @@
 
 - (void)placeManager:(GMBLPlaceManager *)manager didEndVisit:(GMBLVisit *)visit
 {
-    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"Onsite-Reception"]) {
+    if ([visit.place.name isEqualToString:@"Reception"] || [visit.place.name isEqualToString:@"OnsiteReception"]) {
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *exitMsgDisplayed = [defaults objectForKey:@"ReceptionExit"];
@@ -77,7 +77,7 @@
     NSInteger rssi = sighting.RSSI;
     //NSLog(@"%zd",sighting.RSSI);
     
-    if (([sighting.beacon.name isEqualToString:@"Check-in"] || [sighting.beacon.name isEqualToString:@"Onsite-Check-in"]) && !(rssi < -70)) {
+    if (([sighting.beacon.name isEqualToString:@"Check-in"] || [sighting.beacon.name isEqualToString:@"OnsiteCheckIn"]) && !(rssi < -70)) {
         
         if (!self.checkInAlertDisplayed) {
             
