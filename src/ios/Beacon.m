@@ -120,7 +120,7 @@
     [GMBLPlaceManager startMonitoring];
     [GMBLCommunicationManager startReceivingCommunications];
     
-    //[self checkBluetoothStatus];
+    [self checkBluetoothStatus];
     [self checkLocationServiceStatus];
 }
 
@@ -147,7 +147,8 @@
 
 - (void) checkBluetoothStatus{
     
-    if  ([GMBLApplicationStatus bluetoothStatus] == GMBLBluetoothStatusPoweredOff || GMBLBluetoothStatusAdminRestricted) {
+    GMBLBluetoothStatus bluetoothStatus = [GMBLApplicationStatus bluetoothStatus];
+    if  (bluetoothStatus != GMBLBluetoothStatusOK) {
         
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:@"Please turn on Bluetooth from Settings" delegate:self cancelButtonTitle:@"Settings" otherButtonTitles:@"Ok",nil];
         [alert show];
@@ -156,7 +157,8 @@
 
 - (void) checkLocationServiceStatus{
     
-    if ([GMBLApplicationStatus locationStatus] == GMBLLocationStatusNotAuthorizedAlways || GMBLLocationStatusAdminRestricted) {
+    GMBLLocationStatus locationStatus = [GMBLApplicationStatus locationStatus];
+    if (locationStatus !=  GMBLLocationStatusOK){
         
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Photon World" message:@"Please turn on Location Services from Settings" delegate:self cancelButtonTitle:@"Settings" otherButtonTitles:@"Ok",nil];
         [alert show];
