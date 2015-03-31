@@ -63,7 +63,6 @@ Leo Joseph
 
         <header-file src="src/ios/Beacon.h" />
         <source-file src="src/ios/Beacon.m" />
-        <resource-file src="src/ios/Resources/application-properties.plist"/>
     </platform>
 
     <!-- android -->

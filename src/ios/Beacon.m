@@ -75,7 +75,7 @@
 - (void)beaconManager:(GMBLBeaconManager *)manager didReceiveBeaconSighting:(GMBLBeaconSighting *)sighting{
     
     NSInteger rssi = sighting.RSSI;
-    NSLog(@"%zd",sighting.RSSI);
+    //NSLog(@"%zd",sighting.RSSI);
     
     if ([sighting.beacon.name isEqualToString:@"Check-in"] && !(rssi < -70)) {
         
@@ -285,6 +285,11 @@
         [alert show];
     }
 }
+- (void)applicationWillEnterForeground:(UIApplication *)application{
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+}
+
 + (void)load{
     [Gimbal setAPIKey:@"7d84197f-4aa1-4311-94d9-0821f42672d5" options:nil];
     
