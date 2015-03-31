@@ -16,6 +16,8 @@
 @property (nonatomic) GMBLCommunicationManager *communicationManager;
 @property (assign) BOOL checkInAlertDisplayed;
 
+#define APPKEY "238affd8-e704-4633-8384-91072edfa454"
+
 @end
 
 
@@ -77,7 +79,7 @@
     NSInteger rssi = sighting.RSSI;
     //NSLog(@"%zd",sighting.RSSI);
     
-    if ([sighting.beacon.name isEqualToString:@"Check-in"] || [sighting.beacon.name isEqualToString:@"OnsiteCheckIn"]) {
+    if (([sighting.beacon.name isEqualToString:@"Check-in"] || [sighting.beacon.name isEqualToString:@"OnsiteCheckIn"]) && !(rssi < -70)) {
         
         if (!self.checkInAlertDisplayed) {
             
@@ -236,7 +238,7 @@
             NSLog(@"Error");
         }
     }
-    [Gimbal setAPIKey:@"238affd8-e704-4633-8384-91072edfa454" options:nil];
+    [Gimbal setAPIKey:@APPKEY options:nil];
 }
 
 - (void) CheckInCallback{
@@ -291,7 +293,7 @@
 }
 
 + (void)load{
-    [Gimbal setAPIKey:@"238affd8-e704-4633-8384-91072edfa454" options:nil];
+    [Gimbal setAPIKey:@APPKEY options:nil];
     
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
