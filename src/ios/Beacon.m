@@ -170,7 +170,7 @@
 - (void) displayWelcomeMsgAlert{
     
     UILocalNotification * notification = [[UILocalNotification alloc] init];
-    notification.alertBody = @"Welcome to the Photon World 2015 Conference !!!";
+    notification.alertBody = @"Welcome to PhotonWorld 2015, enjoy the day with exciting speakers and attendees";
     
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
@@ -178,7 +178,7 @@
 - (void) displayExitMsgAlert{
     
     UILocalNotification * notification = [[UILocalNotification alloc] init];
-    notification.alertBody = @"Thank you for support";
+    notification.alertBody = @"Thank You for attending, See you next year!";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
@@ -193,7 +193,7 @@
 - (void) displayCheckinAlert{
     
     UILocalNotification * notification = [[UILocalNotification alloc] init];
-    notification.alertBody = @"Would you like to Check-In using QR ?";
+    notification.alertBody = @"Skip the Queue, Register Instantly! Scan the QR code on your badge with your mobile";
     notification.alertAction = @"CheckIn";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
