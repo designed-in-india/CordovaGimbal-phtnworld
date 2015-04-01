@@ -16,7 +16,7 @@
 @property (nonatomic) GMBLCommunicationManager *communicationManager;
 @property (assign) BOOL checkInAlertDisplayed;
 
-#define APPKEY "238affd8-e704-4633-8384-91072edfa454"
+#define APPKEY "055c3283-abe3-4a77-818c-dd398b793d52"
 
 @end
 
